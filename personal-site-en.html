@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王孜远 · Ziyuan Wang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --kk-blue: #001791;
+            --dark: #1D1D1F;
+            --white: #FFFFFF;
+            --gray: #6E6E73;
+            --light-gray: #F5F5F7;
+            --border: #E0E0E0;
+            --tag-bg: #F0F1F5;
+            --font-sans: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--kk-blue);
+            background: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+    /* ═══ Kiko 点阵背景 ═══ */
+        .visual-grid {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: calc(100vw - 20px);
+            height: calc(100vh - 20px);
+            background-image: radial-gradient(circle at 1px 1px, rgb(0,23,145) 1px, rgba(0,23,145,0) 0px);
+            background-size: 70px 70px;
+            background-repeat: repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 0 24px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            line-height: 1.3;
+            pointer-events: none;
+        }
+        .nav-center .cn {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--kk-blue);
+            display: block;
+        }
+        .nav-center .en {
+            font-size: 0.65rem;
+            font-weight: 400;
+            color: var(--gray);
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.78rem;
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--kk-blue); }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            position: fixed;
+            top: 19px;
+            right: 24px;
+            z-index: 101;
+        }
+        .lang-switch a {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--gray);
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .lang-switch a:hover { color: var(--kk-blue); }
+        .lang-switch a.active { color: var(--kk-blue); font-weight: 600; }
+
+        /* ═══ Sections ═══ */
+        section { padding: 100px 24px; border-bottom: 1px solid var(--border); }
+        .section-inner { max-width: 1000px; margin: 0 auto; }
+
+        .section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--kk-blue);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.45;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--kk-blue);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+        .section-desc.large { font-size: 1.2rem; line-height: 1.8; }
+
+        /* ═══ About ═══ */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-top: 48px;
+        }
+        .about-item h3 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--kk-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+        .about-item p {
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 24px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--kk-blue);
+            background: var(--tag-bg);
+            letter-spacing: 0.3px;
+        }
+
+        /* ═══ Work Grid ═══ */
+        .work-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            margin-top: 48px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .work-card {
+            position: relative;
+            background: var(--white);
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--kk-blue);
+            transition: background 0.2s;
+            min-height: 200px;
+        }
+        .work-card:hover { background: var(--tag-bg); }
+        .work-card-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--kk-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.45;
+        }
+        .work-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .work-card p {
+            font-size: 0.82rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+        .work-card .status {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--gray);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border: 1px solid var(--border);
+        }
+        .work-card-wide { grid-column: 1 / -1; }
+
+        /* ═══ Brand Statement ═══ */
+        .brand-statement {
+            margin-top: 48px;
+            padding: 40px;
+            background: var(--tag-bg);
+            border-left: 4px solid var(--kk-blue);
+        }
+        .brand-statement p {
+            font-size: 1.05rem;
+            color: var(--dark);
+            line-height: 1.8;
+        }
+        .brand-statement .highlight {
+            color: var(--kk-blue);
+            font-weight: 500;
+        }
+
+        /* ═══ Contact ═══ */
+        .contact-links {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .contact-links a {
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--kk-blue);
+            text-decoration: none;
+            padding: 20px 24px;
+            background: var(--white);
+            transition: background 0.2s;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .contact-links a:hover { background: var(--tag-bg); }
+        .contact-links .icon { font-size: 1rem; opacity: 0.5; }
+
+        /* ═══ Footer ═══ */
+        footer { padding: 32px 24px; background: var(--white); }
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .footer-copy { font-size: 0.72rem; color: var(--gray); letter-spacing: 0.3px; }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a {
+            font-size: 0.72rem;
+            color: var(--gray);
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: color 0.2s;
+            text-transform: uppercase;
+        }
+        .footer-links a:hover { color: var(--kk-blue); }
+
+        /* ═══ Animations ═══ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ═══ Responsive ═══ */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 28px; }
+            .work-grid { grid-template-columns: 1fr; }
+            section { padding: 80px 20px; }
+            .brand-statement { padding: 24px; }
+            .contact-links a { min-width: 100%; }
+        }
+        @media (max-width: 480px) {
+        }
+    </style>
+</head>
+<body>
+<!-- ═══ Kiko 式点阵背景 ═══ -->
+<div class="visual-grid"></div>
+
+<!-- ═══ Navigation ═══ -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-center">
+            <span style="font-size:1.1rem;font-weight:600;color:var(--kk-blue);display:block;">Ziyuan Wang</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#statement">Statement</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="lang-switch">
+            <a href="personal-site.html">简体中文</a>
+            <a href="personal-site-en.html" class="active">English</a>
+            <a href="personal-site-ja.html">日本語</a>
+            <a href="personal-site-hant.html">繁體中文</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══ About ═══ -->
+<section id="about">
+    <div class="section-inner fade-in">
+        <div class="section-label">About</div>
+        <h2 class="section-title">Between Fabric and Strategy</h2>
+        <p class="section-desc large">
+            Trained in fashion design, working across academic research and brand strategy.<br>
+            One question drives everything: when a fabric, a brand, or a cultural context<br>
+            gets translated into a different market, how do the细微 differences determine success or failure?
+        </p>
+        <div class="about-grid">
+            <div class="about-item">
+                <h3>Academia</h3>
+                <p>Luxun Academy of Fine Arts · Fashion Design<br>Bunka Fashion College · Advanced Degree<br>Research focus: Denim application, Deconstructive design</p>
+            </div>
+            <div class="about-item">
+                <h3>Business</h3>
+                <p>Cross-cultural Brand Strategy · Sell to China<br>Interpreting the Chinese market for foreign brands<br>Portfolio-style creator on Note</p>
+            </div>
+        </div>
+        <div class="tags">
+            <span class="tag">Fashion Design</span>
+            <span class="tag">Denim</span>
+            <span class="tag">Brand Strategy</span>
+            <span class="tag">Sell to China</span>
+            <span class="tag">China ⇄ Japan</span>
+            <span class="tag">Deconstruction</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ Work ═══ -->
+<section id="work">
+    <div class="section-inner fade-in">
+        <div class="section-label">Work</div>
+        <h2 class="section-title">设计 · 写作 · 策略</h2>
+        <p class="section-desc">学术论文、品牌内容、设计项目——不是作品集，是能力证据。</p>
+        <div class="work-grid">
+            <a class="work-card work-card-wide" href="#">
+                <div class="work-card-label">Thesis · 2026</div>
+                <h3>Denim Fabric in Fashion Design</h3>
+                <p>A three-tier framework from weave structure to brand strategy.</p>
+                <span class="status">Completed</span>
+            </a>
+            <a class="work-card" href="#">
+                <div class="work-card-label">Content · 2026</div>
+                <h3>Sell to China</h3>
+                <p>Translating Chinese market context for foreign brands</p>
+                <span class="status">Ongoing</span>
+            </a>
+            <a class="work-card" href="#">
+                <div class="work-card-label">Brand · 2026</div>
+                <h3>Note Portfolio</h3>
+                <p>Building a personal brand through analytical content</p>
+                <span class="status">Ongoing</span>
+            </a>
+            <a class="work-card" href="#">
+                <div class="work-card-label">Design · 2026</div>
+                <h3>Executive Report</h3>
+                <p>Content-driven HTML report generator</p>
+                <span class="status">Completed</span>
+            </a>
+            <a class="work-card" href="#">
+                <div class="work-card-label">Writing · 2026</div>
+                <h3>Hong Kong Sketches</h3>
+                <p>Anti-guidebook observations on visual density</p>
+                <span class="status">Draft</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ Brand Statement ═══ -->
+<section id="statement">
+    <div class="section-inner fade-in">
+        <div class="section-label">Philosophy</div>
+        <h2 class="section-title">Yourself as a Brand</h2>
+        <p class="section-desc">Your identity is your asset. Work on China-facing business in Japan, and Japan-facing business in China.</p>
+        <div class="brand-statement">
+            <p>
+                I do two things: <span class="highlight">translate inward</span>—bringing foreign brands to Chinese consumers;
+                <span class="highlight">translate outward</span>—bringing Chinese brands to the Japanese market.
+                Not a cultural broker, but a context decoder.
+                What I enjoy most is catching subtle differences—in design details, brand tones, and market contexts.
+                When that ability is seen, that's my best work.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ Contact ═══ -->
+<section id="contact">
+    <div class="section-inner fade-in">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Let's talk?</h2>
+        <p class="section-desc" style="margin-bottom:8px;">Collaboration · Content · Design · Or just a chat</p>
+        <div class="contact-links">
+            <a href="https://note.com/suketoo" target="_blank"><span class="icon">→</span> Note</a>
+            <a href="mailto:imsuketoo@gmail.com"><span class="icon">→</span> Email</a>
+            <a href="#"><span class="icon">→</span> WeChat · suketoo</a>
+            <a href="https://xhslink.com/m/wEJ2LA2Ez6" target="_blank"><span class="icon">→</span> Xiaohongshu</a>
+            <a href="https://www.instagram.com/imsuketoo/" target="_blank"><span class="icon">→</span> Instagram</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-copy">&copy; 2026 王孜远 Ziyuan Wang</div>
+        <div class="footer-links">
+            <a href="#">Top</a>
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</footer>
+
+
+
+<script>
+(function() {
+    /* ── 滚动渐入 ── */
+    var fadeEls = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        fadeEls.forEach(function(el) { observer.observe(el); });
+    } else {
+        fadeEls.forEach(function(el) { el.classList.add('visible'); });
+    }
+
+    /* ── 导航链接平滑滚动 ── */
+    var navLinks = document.querySelectorAll('.nav-links a, .footer-links a[href^="#"]');
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            var href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                var target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    window.scrollTo({ top: target.offsetTop - 60, behavior: 'smooth' });
+                }
+            }
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
